@@ -38,8 +38,7 @@ Extracted verbatim from FreeRDP upstream libfreerdp/cache/persistent.c:
 static int persistent_cache_read_entry_v2(rdpPersistentCache* persistent,
                                           PERSISTENT_CACHE_ENTRY* entry)
 {
-	PERSISTENT_CACHE_ENTRY_V2 entry2 = WINPR_C_ARRAY_INIT;
-
+	
 	WINPR_ASSERT(persistent);
 	WINPR_ASSERT(entry);
 
