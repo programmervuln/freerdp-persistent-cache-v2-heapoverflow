@@ -45,7 +45,6 @@ static int persistent_cache_read_entry_v2(rdpPersistentCache* persistent,
 
 	if (fread(&entry2, sizeof(entry2), 1, persistent->fp) != 1)
 		return -1;
-
 	entry->key64 = entry2.key64;
 	entry->width = entry2.width;   
 	entry->height = entry2.height; 
