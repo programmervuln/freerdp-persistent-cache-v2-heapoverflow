@@ -87,7 +87,7 @@ static int persistent_cache_read_entry_v2(rdpPersistentCache* persistent,
 		return -1;
 
 	if (fread(entry->data, 0x4000, 1, persistent->fp) != 1)
-		return -1; 
+		return -1;
 
 	return 1;
 }
