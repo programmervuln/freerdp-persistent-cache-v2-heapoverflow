@@ -66,11 +66,11 @@ AddressSanitizer will report heap‑buffer‑overflow inside fread().
 Original Vulnerable Code Snippet
 Extracted verbatim from FreeRDP upstream libfreerdp/cache/persistent.c:
 
+
 static int persistent_cache_read_entry_v2(rdpPersistentCache* persistent,
                                           PERSISTENT_CACHE_ENTRY* entry)
 {
-
-PERSISTENT_CACHE_ENTRY_V2 entry2 = WINPR_C_ARRAY_INIT;
+	PERSISTENT_CACHE_ENTRY_V2 entry2 = WINPR_C_ARRAY_INIT;
 
 	WINPR_ASSERT(persistent);
 	WINPR_ASSERT(entry);
@@ -86,12 +86,13 @@ PERSISTENT_CACHE_ENTRY_V2 entry2 = WINPR_C_ARRAY_INIT;
 	if (!persist_cache_get_data(persistent, entry))
 		return -1;
 
-	// Hardcoded read size: always read 0x4000 bytes
 	if (fread(entry->data, 0x4000, 1, persistent->fp) != 1)
-		return -1;
+		return -1; 
 
 	return 1;
 }
+
+
 Notes
 This repository only provides PoC generator and crash log for CVE application and vulnerability documentation.
 In unmodified upstream FreeRDP, only 64‑bit unsigned multiplication wrap-around (CWE‑190) exists, which corrupts entry->size.
