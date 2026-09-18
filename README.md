@@ -38,33 +38,28 @@ Extracted verbatim from FreeRDP upstream libfreerdp/cache/persistent.c:
 static int persistent_cache_read_entry_v2(rdpPersistentCache* persistent,
                                           PERSISTENT_CACHE_ENTRY* entry)
 {
-	PERSISTENT_CACHE_ENTRY_V2 entry2 = { 0 };
+	PERSISTENT_CACHE_ENTRY_V2 entry2 = WINPR_C_ARRAY_INIT;
 
 	WINPR_ASSERT(persistent);
 	WINPR_ASSERT(entry);
 
-	if (fread((void*)&entry2, sizeof(entry2), 1, persistent->fp) != 1)
+	if (fread(&entry2, sizeof(entry2), 1, persistent->fp) != 1)
 		return -1;
 
 	entry->key64 = entry2.key64;
-	entry->width = entry2.width;
-	entry->height = entry2.height;
-	entry->size = entry2.width * entry2.height * 4;
+	entry->width = entry2.width;   
+	entry->height = entry2.height; 
 	entry->flags = entry2.flags;
 
-	persistent->bmpData = winpr_aligned_recalloc(persistent->bmpData, persistent->bmpSize, entry->size, 16);
-	persistent->bmpSize = entry->size;
-
-	if (!persistent->bmpData)
+	if (!persist_cache_get_data(persistent, entry))
 		return -1;
 
-	entry->data = persistent->bmpData;
-
-	if (fread((void*)entry->data, entry2.storedDataLen, 1, persistent->fp) != 1)
+	if (fread(entry->data, 0x4000, 1, persistent->fp) != 1)
 		return -1;
 
 	return 1;
 }
+
 
 
 Notes
